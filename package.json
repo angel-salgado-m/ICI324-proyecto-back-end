@@ -2,7 +2,7 @@
   "name": "ici324-proyectomedidores",
   "version": "1.0.0",
   "description": "Repositorio de la asignatura ICI-324 Base de Datos y Programacion Web.  Proyecto de medidores de gas.",
-  "main": "index.js",
+  "main": "app.js", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

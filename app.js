@@ -13,7 +13,7 @@ const port = process.env.SERVER_PORT ?? 3030;
 
 // Opciones de CORS
 const corsOptions = {
-    credentiasl: true,
+    credentials: true,
     optionSuccessStatus:200,
     methods: "GET, PUT, POST, DELETE",
     origin: '*'
