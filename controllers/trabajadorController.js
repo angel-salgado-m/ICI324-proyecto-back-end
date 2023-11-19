@@ -1,5 +1,5 @@
-const mysql2 = require('mysql2/promise');
-const connectionConfig = require('../utils/db.js');
+import mysql2 from 'mysql2/promise';
+import connectionConfig from '../utils/connection.js';
 
 const createConnection = async ( ) => {
     return await mysql2.createConnection(connectionConfig);
@@ -109,7 +109,7 @@ const addTrabajador = async (req, res) => {
     });
   }
 };
-module.exports = {
+export {
     getAllTrabajadores,
     getTrabajadorByCargo,
     updateNombreTrabajador,

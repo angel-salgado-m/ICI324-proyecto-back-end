@@ -1,12 +1,11 @@
-const Router = require("express");
-
-const { getAllTrabajadores, getTrabajadorByCargo, updateNombreTrabajador, addTrabajador } = require("../controllers/trabajadorController.js");
-
+import Router from "express";
 const router = Router();
+
+import { getAllTrabajadores, getTrabajadorByCargo, updateNombreTrabajador, addTrabajador } from "../controllers/trabajadorController.js";
 
 router.get('/allTrabajadores', getAllTrabajadores);
 router.get('/trabajador/:cargo', getTrabajadorByCargo);
 router.put('/trabajador/:rut', updateNombreTrabajador);
 router.post('/trabajador/add', addTrabajador);
 
-module.exports = router;
+export default router;

@@ -1,15 +1,12 @@
 // Preparando express e importando middlewares
-const express = require('express');
-const cors = require('cors');
-const dotenv = require("dotenv");
+import cors from 'cors';
+import morgan from 'morgan';
+import express from 'express';
 
-dotenv.config();
+import value from './utils/const.js';
 
-//archivo de la configuracion de bd 
-require('./utils/db.js');
+
 const app = express(); //crear instancia app
-
-const port = process.env.SERVER_PORT ?? 3030;
 
 // Opciones de CORS
 const corsOptions = {
@@ -19,22 +16,31 @@ const corsOptions = {
     origin: '*'
 };
 
-app.use(cors(corsOptions));
+//Configuraciones
+
+app.set('port', value.RUN_PORT); //puerto de escucha
+app.set('env', value.NODE_ENV); //entorno de ejecucion
+
+//Middlewares
+app.use(morgan('dev')); //ver peticiones por consola
+app.use(cors(corsOptions)); //Ingresa configuracion de CORS
 app.use(express.json({limit: '500MB'}));
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true})); 
 
 
 //ENDPOINTs
-const routerCliente = require('./routes/routerCliente.js');
-const routerTrabajador = require('./routes/routerTrabajador.js');
-const routerConsultas = require('./routes/routerConsultas.js');
-const routerSector = require('./routes/routerSector.js');
+import routerCliente from './routes/routerCliente.js';
+import routerTrabajador from'./routes/routerTrabajador.js';
+import routerConsultas from'./routes/routerConsultas.js';
+import routerSector from './routes/routerSector.js';
 
 app.use('/cliente', routerCliente);
 app.use('/trabajador', routerTrabajador);
 app.use('/consulta', routerConsultas);
 app.use('/sector', routerSector);
 
-app.listen(port, function () {
-    console.log("Server listening at: " + port);
+app.listen(value.RUN_PORT, function () {
+    console.log("Server listening at: " + value.RUN_PORT);
   });
+
+export default app;

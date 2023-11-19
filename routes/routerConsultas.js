@@ -1,8 +1,8 @@
-const Router = require("express");
+import Router from "express";
 const router = Router();
 
-const { getConsultaById } = require('../controllers/consultasController.js');
+import { getConsultaById } from '../controllers/consultasController.js';
 
 router.get('/consulta/:id', getConsultaById);
 
-module.exports = router;
+export default router;
