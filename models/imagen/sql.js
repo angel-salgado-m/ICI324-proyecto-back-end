@@ -1,23 +1,22 @@
-import Sequelize from "sequelize";
-import sequelize from "../../utils/sequelizeConnection.js";
+import Sequelize from 'sequelize';
 
-const Imagen = sequelize.define('Imagen', {
-        
-            idImagen: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-                allowNull: false,
-            },
-            img: {
-                type: Sequelize.BLOB("long"),
-                allowNull: false,
-            },
-        },
-        {
-            // Opciones adicionales
-            tableName: 'imagen'
-        }
-    );
+const ImagenModel = (sequelize, Sequelize) => {
+  return sequelize.define('Imagen', {
+    idImagen: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
+    img: {
+        type: Sequelize.BLOB("long"),
+        allowNull: false,
+    },
+  }, {
+    // Opciones adicionales
+    tableName: 'imagen',
+    freezeTableName: true,
+  });
+};
 
-export default Imagen;
+export default ImagenModel;

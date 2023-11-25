@@ -1,8 +1,8 @@
-import Sequelize from "sequelize";
-import sequelize from "../../utils/sequelizeConnection.js";
+import Sequelize from 'sequelize';
+import sequelize from '../../utils/sequelizeConnection.js';
 
-const Cliente = sequelize.define('Cliente', {
-
+const ClienteModel = (sequelize, Sequelize) => {
+  return sequelize.define('Cliente', {
     idCliente: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,14 +13,11 @@ const Cliente = sequelize.define('Cliente', {
         type: Sequelize.CHAR(50),
         allowNull: false,
     },
-
-},
-{
+  }, {
     // Opciones adicionales
-    tableName: 'cliente'
-}
-);
+    tableName: 'cliente',
+    freezeTableName: true,
+  });
+};
 
-export default Cliente;
-
-
+export default ClienteModel;

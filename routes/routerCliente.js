@@ -1,8 +1,10 @@
 import Router from "express";
-const router = Router();
+const routerCliente = Router();
 
-import { getAllClientes } from "../controllers/clienteController.js";
 
-router.get('/allClientes', getAllClientes);
+import sqlCliente  from "../controllers/cliente/sql/clienteController.js";
 
-export default router;
+routerCliente.get('/allClientes/:typeBd', sqlCliente.listarClientes);
+routerCliente.get('/:id/:typeBd', sqlCliente.listarById);
+
+export default routerCliente;

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se pued
 import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
+import db from './utils/sequelizeConnection.js';
 
 import value from './utils/const.js';
 
@@ -41,15 +42,23 @@ app.get('/', (req, res) => {
 );
 
 
+
 //ENDPOINTs
 import routerCliente from './routes/routerCliente.js';
-import routerTrabajador from'./routes/routerTrabajador.js';
-import routerConsultas from'./routes/routerConsultas.js';
+import routerDireccion from './routes/routerDireccion.js';
+import routerMedidor from './routes/routerMedidor.js';
+import routerRegistro from './routes/routerRegistro.js';
 import routerSector from './routes/routerSector.js';
+import routerTrabajador from './routes/routerTrabajador.js';
+
+
+
 
 app.use('/cliente', routerCliente);
+app.use('/direccion', routerDireccion);
+app.use('/medidor', routerMedidor);
 app.use('/trabajador', routerTrabajador);
-app.use('/consulta', routerConsultas);
+app.use('/registro', routerRegistro);
 app.use('/sector', routerSector);
 
 app.listen(value.RUN_PORT, function () {

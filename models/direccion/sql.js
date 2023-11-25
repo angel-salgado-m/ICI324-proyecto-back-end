@@ -1,8 +1,9 @@
-import Sequelize from "sequelize";
-import sequelize from "../../utils/sequelizeConnection.js";
+import Sequelize from 'sequelize';
+import sequelize from '../../utils/sequelizeConnection.js';
 
-const Direccion = sequelize.define('Direccion', {
 
+const DireccionModel = (sequelize, Sequelize) => {
+  return sequelize.define('Direccion', {
     idDireccion: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -29,12 +30,11 @@ const Direccion = sequelize.define('Direccion', {
         type: Sequelize.CHAR(50),
         allowNull: false,
     },
-},
-{
+  }, {
     // Opciones adicionales
-    tableName: 'direccion'
-}
-);
+    tableName: 'direccion',
+    freezeTableName: true,
+  });
+};
 
-export default Direccion;
-
+export default DireccionModel;

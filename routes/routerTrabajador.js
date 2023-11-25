@@ -1,11 +1,10 @@
 import Router from "express";
-const router = Router();
+const routerTrabajador = Router();
 
-import { getAllTrabajadores, getTrabajadorByCargo, updateNombreTrabajador, addTrabajador } from "../controllers/trabajadorController.js";
 
-router.get('/allTrabajadores', getAllTrabajadores);
-router.get('/trabajador/:cargo', getTrabajadorByCargo);
-router.put('/trabajador/:rut', updateNombreTrabajador);
-router.post('/trabajador/add', addTrabajador);
+import sqlTrabajador  from "../controllers/trabajador/sql/trabajadorController.js";
 
-export default router;
+routerTrabajador.get('/allTrabajadores/:typeBd', sqlTrabajador.listarTrabajadores);
+routerTrabajador.get('/:id/:typeBd', sqlTrabajador.listarById);
+
+export default routerTrabajador;
