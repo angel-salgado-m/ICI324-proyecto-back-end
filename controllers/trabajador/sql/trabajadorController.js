@@ -95,7 +95,7 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
             });
 
             if(trabajador){
-                return res.status(200).json({
+                return res.status(201).json({
                     success: true,
                     trabajador
                 });
@@ -120,6 +120,7 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
 sqlTrabajador.validarTrabajador = async (req, res, next) => {
 
     const { rut, password } = req.body;
+    console.log(req.body);
 
     try {
         // Encontrar RUT
@@ -144,13 +145,13 @@ sqlTrabajador.validarTrabajador = async (req, res, next) => {
                 if (trabajador.cargo === 'administrador') {
 
                     token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo }, 'stil', { expiresIn: '8h' });
-                    return res.json({ token, cargo: trabajador.cargo });
+                    return res.status(200).json({ token, cargo: trabajador.cargo });
 
                 // Caso trabajador comun
                 } else {
 
                     token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo, sector: trabajador.idSector }, 'stil', { expiresIn: '8h' });
-                    return res.json({ token, cargo: trabajador.cargo, sector: trabajador.idSector });
+                    return res.status(200).json({ token, cargo: trabajador.cargo, sector: trabajador.idSector });
 
                 }
             }

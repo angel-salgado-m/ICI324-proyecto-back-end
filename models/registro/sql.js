@@ -22,7 +22,7 @@ const RegistroModel = (sequelize, Sequelize) => {
         allowNull: false,
     },
     estado: {
-        type: Sequelize.ENUM('revisado','no revisado' ),
+        type: Sequelize.ENUM('check','uncheck' ),
         allowNull: false,
     },
     idImg: {

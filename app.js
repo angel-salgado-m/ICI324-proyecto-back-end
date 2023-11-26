@@ -16,8 +16,8 @@ const app = express(); //crear instancia app
 const corsOptions = {
     credentials: true,
     optionSuccessStatus:200,
-    methods: "GET, PUT, POST, DELETE",
-    origin: '*'
+    methods: "GET, PUT, POST, DELETE, OPTIONS",
+    origin: 'http://localhost:3000'
 };
 
 //Configuraciones

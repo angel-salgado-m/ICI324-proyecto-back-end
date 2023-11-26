@@ -9,7 +9,7 @@ const TrabajadorModel = (sequelize, Sequelize) => {
     },
     idSector: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     nombre: {
         type: Sequelize.CHAR(50),
