@@ -47,7 +47,7 @@ conexionSql.authenticate().then(() => {
     }
 );
 
-conexionSql.sync({ force: false }).then(() => {
+conexionSql.sync({ alter: true }).then(() => { // alter: true, para 
     console.log("Tablas sincronizadas");
 });
 

@@ -13,8 +13,8 @@ const RegistroModel = (sequelize, Sequelize) => {
         allowNull: false,
     },
     tipo: {
-        type: Sequelize.ENUM('Lectura', 'Revision', 'Novedad'),
-        defaultValue: 'Novedad',
+        type: Sequelize.ENUM('lectura', 'revision', 'novedad'),
+        defaultValue: 'novedad',
         allowNull: false,
     },
     descripcion: {
@@ -22,11 +22,15 @@ const RegistroModel = (sequelize, Sequelize) => {
         allowNull: false,
     },
     estado: {
-        type: Sequelize.ENUM('Concluso', 'Inconcluso'),
+        type: Sequelize.ENUM('revisado','no revisado' ),
         allowNull: false,
     },
     idImg: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    fecha: {
+        type: Sequelize.DATE,
         allowNull: false,
     },
   }, {

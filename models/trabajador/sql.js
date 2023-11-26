@@ -20,11 +20,11 @@ const TrabajadorModel = (sequelize, Sequelize) => {
         allowNull: false,
     },
     password: {
-        type: Sequelize.CHAR(24),
+        type: Sequelize.STRING(255),
         allowNull: false,
     },
     cargo: {
-        type: Sequelize.ENUM('Lector', 'Inspector'),
+        type: Sequelize.ENUM('lector', 'inspector', 'administrador'),
         allowNull: false,
     },
     horario: {
@@ -33,7 +33,7 @@ const TrabajadorModel = (sequelize, Sequelize) => {
     },
     imgWorker: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
   }, {
     // Opciones adicionales
