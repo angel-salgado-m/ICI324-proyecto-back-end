@@ -1,8 +1,9 @@
-const Router = require("express");
-const router = Router();
+import Router from "express";
+const routerSector = Router();
 
-const { updateSucursal } = require('../controllers/sectorController.js');
+import sqlSector from "../controllers/sector/sql/sectorController.js";
 
-router.put('/sector/:id', updateSucursal);
+routerSector.get('/allSectores/:typeBd', sqlSector.listarSectores);
+routerSector.get('/:id/:typeBd', sqlSector.listarById);
 
-module.exports = router;
+export default routerSector;

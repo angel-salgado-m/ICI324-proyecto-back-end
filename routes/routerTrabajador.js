@@ -1,12 +1,12 @@
-const Router = require("express");
+import Router from "express";
+const routerTrabajador = Router();
 
-const { getAllTrabajadores, getTrabajadorByCargo, updateNombreTrabajador, addTrabajador } = require("../controllers/trabajadorController.js");
 
-const router = Router();
+import sqlTrabajador  from "../controllers/trabajador/sql/trabajadorController.js";
 
-router.get('/allTrabajadores', getAllTrabajadores);
-router.get('/trabajador/:cargo', getTrabajadorByCargo);
-router.put('/trabajador/:rut', updateNombreTrabajador);
-router.post('/trabajador/add', addTrabajador);
+routerTrabajador.get('/allTrabajadores/:typeBd', sqlTrabajador.listarTrabajadores);
+routerTrabajador.get('/:id/:typeBd', sqlTrabajador.listarById);
+routerTrabajador.post('/signup/:typeBd', sqlTrabajador.crearTrabajador);
+routerTrabajador.post('/login/:typeBd', sqlTrabajador.validarTrabajador);
 
-module.exports = router;
+export default routerTrabajador;
