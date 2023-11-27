@@ -6,7 +6,7 @@ const createConnection = async ( ) => {
 }
 
 const queries = {
-    // Consulta SELECT 1: Mostrar a todos los trabajadores y sus sectores. 
+    // Consulta SELECT 1: Mostrar a todos los trabajadores y sus sectores. -Check
     1: 'SELECT trabajador.*, sector.sucursal FROM trabajador LEFT JOIN sector ON trabajador.idSectores = sector.idSector;',
     // Consulta SELECT 2: Mostrar todas las direcciones y los nombres de los clientes correspondientes.
     2: 'SELECT direccion.*, cliente.nombre AS nombre_cliente FROM direccion INNER JOIN cliente ON direccion.idCliente = cliente.idCliente;',

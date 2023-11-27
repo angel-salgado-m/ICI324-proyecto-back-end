@@ -5,7 +5,7 @@ import TrabajadorModelFunction from '../../../models/trabajador/sql.js';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-dotenv.config({ path: '../../../.env' });
+dotenv.config({ path: '../../../.env'});
 
 const TrabajadorModel = TrabajadorModelFunction(sequelize, Sequelize);
 
@@ -120,27 +120,22 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
 sqlTrabajador.validarTrabajador = async (req, res, next) => {
 
     const { rut, password } = req.body;
-    console.log(req.body);
 
     try {
         // Encontrar RUT
         const trabajador = await TrabajadorModel.findOne({ where: { rut: rut } });
-
+        console.log(trabajador);
         if (!trabajador) {
-            return res.status(400).json({ message: 'Clave o RUT incorrecta.' });
+            return res.status(400).json({ message: 'Clave o RUT incorrecta.1' });
         }
 
         // Comparacion de password dada
         bcrypt.compare(password, trabajador.password, (compareErr, match) => {
-
             if (compareErr || !match) {
-
-                return res.status(400).json({ message: 'Clave o RUT incorrecta.' });
+                return res.status(400).json({ message: 'Clave o RUT incorrecta.2' });
 
             } else {
-
                 let token;
-
                 // Caso admin
                 if (trabajador.cargo === 'administrador') {
 

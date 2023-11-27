@@ -17,6 +17,10 @@ const RegistroModel = (sequelize, Sequelize) => {
         defaultValue: 'novedad',
         allowNull: false,
     },
+    asunto: {
+        type: Sequelize.ENUM('actCliente', 'actMedidor', 'errorLectura'),
+        allowNull: true,
+    },
     descripcion: {
         type: Sequelize.TEXT,
         allowNull: false,
@@ -27,7 +31,7 @@ const RegistroModel = (sequelize, Sequelize) => {
     },
     idImg: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     fecha: {
         type: Sequelize.DATE,

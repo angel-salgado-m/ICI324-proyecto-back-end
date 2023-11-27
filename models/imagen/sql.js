@@ -9,8 +9,16 @@ const ImagenModel = (sequelize, Sequelize) => {
         allowNull: false,
     },
     img: {
-        type: Sequelize.BLOB("long"),
+        type: Sequelize.STRING,
         allowNull: false,
+    },
+    idRegistro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'registro',
+            key: 'idRegistro'
+        }
     },
   }, {
     // Opciones adicionales

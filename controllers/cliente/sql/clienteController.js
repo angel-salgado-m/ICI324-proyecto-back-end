@@ -69,4 +69,43 @@ sqlCliente.listarById = async (req, res, next) => {
     };
 };
 
+sqlCliente.cambiarNombre = async (req, res, next) => {
+    try {
+        
+        const typeBd  = req.params.typeBd;
+        const idCliente = req.params.id;
+        const { nombre } = req.body;
+
+        if(typeBd === 'sql'){
+
+            const cliente = await ClienteModel.findByPk(idCliente);
+            
+            if(cliente){
+
+                cliente.nombre = nombre;
+                await cliente.save();
+
+                return res.status(200).json({
+                    success: true,
+                    cliente
+                });
+            };
+            
+            return res.status(404).json({
+                success: false,
+                error:"Cliente no encontrado"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error:"Error en el servidor"
+        });
+    };
+}
+
 export default sqlCliente;

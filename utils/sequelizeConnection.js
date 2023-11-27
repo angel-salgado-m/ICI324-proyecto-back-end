@@ -41,15 +41,15 @@ confExtra(conexionSql);
 
 conexionSql.authenticate().then(() => {
 
-        console.log('Sequelize Conectado');
+        console.log('SEQUELIZE: Conectado');
     }).catch((error) => {
-        console.error('Unable to connect to the database: ', error);
+        console.error('SEQUELIZE: Error al conectar: ', error);
     }
 );
 
 // "Alter : true" para desarrollo
 conexionSql.sync({ alter: true }).then(() => { // alter: true, para 
-    console.log("Tablas sincronizadas");
+    console.log("SEQUELIZE: tablas sincronizadas");
 });
 
 export default conexionSql;

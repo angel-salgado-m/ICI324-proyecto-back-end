@@ -1,10 +1,29 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../../utils/sequelizeConnection.js';
 import RegistroModelFunction from '../../../models/registro/sql.js';
+import ImagenModelFunction from '../../../models/imagen/sql.js';
+import path from 'path';
+import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se puede cambiar?)
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Obtener directorio actual (Se puede cambiar?)
+
+import multer from 'multer';
 
 const RegistroModel = RegistroModelFunction(sequelize, Sequelize);
+const ImagenModel = ImagenModelFunction(sequelize, Sequelize);
 
 let sqlRegistro = {};
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, '../../../Images'))
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+  })
+  
+  const upload = multer({ storage: storage });
 
 sqlRegistro.crearRegistro = async (req, res, next) => {
     try {
@@ -12,8 +31,22 @@ sqlRegistro.crearRegistro = async (req, res, next) => {
         const registro = req.body;
 
         if(bdSelection === 'sql'){
+            // Creacion del registro
             const data = await RegistroModel.create(registro);
+
+            // Condicional si se logra crear un registro
             if(data){
+                
+                // Si el registro viene con imagen
+                if(req.file){
+                    const imagen = await ImagenModel.create({
+                        img: req.file.path,
+                        idRegistro: data.idRegistro
+                    });
+                    data.idImg = imagen.idImagen;   // Set al idImg del registro como el idImg de la tabla imagen
+                    await data.save();
+                };
+
                 return res.status(201).json({
                     success: true,
                     data,
@@ -47,6 +80,49 @@ sqlRegistro.listarRegistros = async (req, res, next) => {
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
+                    data,
+                    message: "Registro en sequelize"
+                });
+            };
+
+            return res.status(404).json({
+                success: false,
+                message: "No hay Registros en bd sql"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+};
+
+sqlRegistro.listarInconclusos = async (req, res, next) => {    
+    try {
+        const bdSelection = req.params.typeBd;
+        console.log(bdSelection);
+
+        if(bdSelection === 'sql'){
+
+            const count = await RegistroModel.count({ 
+                where: { 
+                    estado: 'uncheck' 
+                } 
+            });
+            const data = await RegistroModel.findAll({
+                where: {
+                    estado: 'uncheck'
+                }
+            }); //funciones de sequilize
+            if(data.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    count,
                     data,
                     message: "Registro en sequelize"
                 });
@@ -158,4 +234,6 @@ sqlRegistro.registrosAnteriores = async (req, res, next) => {
     };
 };
 
-export default sqlRegistro;
+sqlRegistro.subirImagen
+
+export { sqlRegistro, upload };

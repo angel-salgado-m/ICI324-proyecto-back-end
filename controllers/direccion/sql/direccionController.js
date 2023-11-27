@@ -69,4 +69,44 @@ sqlDireccion.listarById = async (req, res, next) => {
     };
 };
 
+sqlDireccion.cambiarDatos = async (req, res, next) => {
+    try {
+        const typeBd  = req.params.typeBd;
+        const idDireccion = req.params.id;
+        const { pob, blk, dep } = req.body;
+
+        if(typeBd === 'sql'){
+
+            const direccion = await DireccionModel.findByPk(idDireccion);
+            
+            if(direccion){
+
+                direccion.pob = pob;
+                direccion.blk = blk;
+                direccion.dep = dep;
+                await direccion.save();
+
+                return res.status(200).json({
+                    success: true,
+                    direccion
+                });
+            };
+            
+            return res.status(404).json({
+                success: false,
+                error:"Direccion no encontrada"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+}
+
 export default sqlDireccion;
