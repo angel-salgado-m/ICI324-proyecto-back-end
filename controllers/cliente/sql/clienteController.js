@@ -77,16 +77,20 @@ sqlCliente.cambiarNombre = async (req, res, next) => {
         const { nombre } = req.body;
 
         if(typeBd === 'sql'){
+
             const cliente = await ClienteModel.findByPk(idCliente);
             
             if(cliente){
+
                 cliente.nombre = nombre;
                 await cliente.save();
+
                 return res.status(200).json({
                     success: true,
                     cliente
                 });
             };
+            
             return res.status(404).json({
                 success: false,
                 error:"Cliente no encontrado"

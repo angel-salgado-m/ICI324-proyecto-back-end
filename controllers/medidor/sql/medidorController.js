@@ -69,4 +69,43 @@ sqlMedidor.listarById = async (req, res, next) => {
     };
 };
 
+sqlMedidor.modificarSerial = async (req, res, next) => {
+    try {
+
+        const typeBd = req.params.typeBd;
+        const idMedidor = req.params.id;
+        const { nuevoSerial } = req.body;
+
+        if(typeBd === 'sql'){
+
+            const medidor = await MedidorModel.findByPk(idMedidor);
+
+            if(medidor){
+                
+                medidor.serialNumber = nuevoSerial
+                await cliente.save();
+
+                return res.status(200).json({
+                    success: true,
+                    medidor
+                });
+            };
+            
+            return res.status(404).json({
+                success: false,
+                error: "Medidor no encontrado"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+}
+
 export default sqlMedidor;
