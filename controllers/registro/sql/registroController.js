@@ -195,5 +195,3 @@ sqlRegistro.registrosAnteriores = async (req, res, next) => {
 };
 
 export default sqlRegistro;
-
-// probando
