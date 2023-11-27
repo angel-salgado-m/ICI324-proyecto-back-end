@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const sectorSchema = new Schema({
     idSector:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     idRuta:{
         type: Number,

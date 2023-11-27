@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const imagenSchema = new Schema({
     idImagen:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     img:{
         type: String,
@@ -14,8 +15,8 @@ const imagenSchema = new Schema({
     // Puede que no sea necesario este dato, revisar en los metodos sql.
     idRegistro:{
         type: Schema.Types.ObjectId,
+        ref: 'registro', //referencia a la tabla registro ?? * (Por comprobar)
         required: true,
-        ref: 'registro' //referencia a la tabla registro ?? * (Por comprobar)
     },
 });
 

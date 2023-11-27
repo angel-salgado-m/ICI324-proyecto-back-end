@@ -6,7 +6,7 @@ const conexionMongo = mongoose.connect(values.URI_MONGO, {
     user: values.MONGODB_user,
     pass: values.MONGODB_pass,
 }).then(() => {
-    console.log("Conectado a la BD");
+    console.log("MONGODB: Conectado");
 }).catch((err) => {
     console.log(err);
 });

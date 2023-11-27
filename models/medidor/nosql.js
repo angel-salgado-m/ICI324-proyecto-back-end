@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const medidorSchema = new Schema({
     idMedidor:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     idCliente:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'cliente',
         required: true,
     },
     serialNumber:{

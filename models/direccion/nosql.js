@@ -1,18 +1,21 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const direccionSchema = new Schema({
     idDireccion:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     idSector:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'sector',
         required: true,
     },
     idCliente:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'cliente',
         required: true,
     },
     pob:{

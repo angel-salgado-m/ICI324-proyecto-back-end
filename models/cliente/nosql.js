@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const clienteSchema = new Schema({
     idCliente:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     nombre:{
         type: String,

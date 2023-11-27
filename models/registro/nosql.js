@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const registroSchema = new Schema({
     idRegistro:{
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true,
         unique: true,
+        auto: true
     },
     idDireccion:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'direccion',
         required: true,
     },
     tipo:{
@@ -29,7 +31,8 @@ const registroSchema = new Schema({
         required: true,
     },
     idImg:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'imagen',
         required: true,
     },
     fecha:{

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 const trabajadorSchema = new Schema({
     rut:{
@@ -9,7 +9,8 @@ const trabajadorSchema = new Schema({
         unique: true,
     },
     idSector:{
-        type: Number,
+        type: Schema.Types.ObjectId,
+        ref: 'sector',
         required: true,
     },
     nombre:{
@@ -31,11 +32,6 @@ const trabajadorSchema = new Schema({
     horario:{
         type: String,
         required: true,
-    },
-    imgWorker:{
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'imagen',
     },
 });
 
