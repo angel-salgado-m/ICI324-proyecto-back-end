@@ -1,10 +1,29 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../../utils/sequelizeConnection.js';
 import RegistroModelFunction from '../../../models/registro/sql.js';
+import ImagenModelFunction from '../../../models/imagen/sql.js';
+import path from 'path';
+import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se puede cambiar?)
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Obtener directorio actual (Se puede cambiar?)
+
+import multer from 'multer';
 
 const RegistroModel = RegistroModelFunction(sequelize, Sequelize);
+const ImagenModel = ImagenModelFunction(sequelize, Sequelize);
 
 let sqlRegistro = {};
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, '../../../Images'))
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+  })
+  
+  const upload = multer({ storage: storage });
 
 sqlRegistro.crearRegistro = async (req, res, next) => {
     try {
@@ -12,8 +31,22 @@ sqlRegistro.crearRegistro = async (req, res, next) => {
         const registro = req.body;
 
         if(bdSelection === 'sql'){
+            // Creacion del registro
             const data = await RegistroModel.create(registro);
+
+            // Condicional si se logra crear un registro
             if(data){
+                
+                // Si el registro viene con imagen
+                if(req.file){
+                    const imagen = await ImagenModel.create({
+                        img: req.file.path,
+                        idRegistro: data.idRegistro
+                    });
+                    data.idImg = imagen.idImagen;   // Set al idImg del registro como el idImg de la tabla imagen
+                    await data.save();
+                };
+
                 return res.status(201).json({
                     success: true,
                     data,
@@ -201,4 +234,6 @@ sqlRegistro.registrosAnteriores = async (req, res, next) => {
     };
 };
 
-export default sqlRegistro;
+sqlRegistro.subirImagen
+
+export { sqlRegistro, upload };

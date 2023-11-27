@@ -30,6 +30,7 @@ app.use(morgan('dev')); //ver peticiones por consola
 app.use(cors(corsOptions)); //Ingresa configuracion de CORS
 app.use(express.json({limit: '500MB'}));
 app.use(express.urlencoded({extended:true})); 
+app.use('/Images', express.static('./Images'));
 
 /*Endpoint predeterminado que devuelve la documentacion de la API (En proceso)
 TODO:
@@ -50,6 +51,7 @@ import routerMedidor from './routes/routerMedidor.js';
 import routerRegistro from './routes/routerRegistro.js';
 import routerSector from './routes/routerSector.js';
 import routerTrabajador from './routes/routerTrabajador.js';
+import routerImagen from './routes/routerImagen.js';
 
 
 
@@ -60,6 +62,7 @@ app.use('/medidor', routerMedidor);
 app.use('/trabajador', routerTrabajador);
 app.use('/registro', routerRegistro);
 app.use('/sector', routerSector);
+app.use('/imagen', routerImagen);
 
 app.listen(value.RUN_PORT, function () {
     console.log("Server listening at: " + value.RUN_PORT);
