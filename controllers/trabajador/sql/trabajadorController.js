@@ -78,11 +78,9 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
     try {
         const typeBd  = req.params.typeBd;
         const { rut, idSector, nombre, apellido, password, cargo, horario} = req.body;
-        console.log(req.body);
         if(typeBd === 'sql'){
             const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
             const hashedPassword = await bcrypt.hash(password, saltRounds);
-
             const trabajador = await TrabajadorModel.create({
                 rut,
                 idSector,
@@ -92,7 +90,6 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
                 cargo,
                 horario,
             });
-
             if(trabajador){
                 return res.status(201).json({
                     success: true,
@@ -101,12 +98,10 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
             };
             return res.status(404).json({
                 success: false,
-                error:"Trabajador no creado"
+                error:"Datos incorrectos"
             });
         };
-
         next();
-
     } catch (error) {
         console.log(error);
         return res.status(500).json({
