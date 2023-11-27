@@ -129,16 +129,10 @@ sqlTrabajador.validarTrabajador = async (req, res, next) => {
 
             } else {
                 let token;
-                // Caso admin
                 if (trabajador.cargo === 'administrador') {
-
-                    token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo }, 'stil', { expiresIn: '8h' });
-                    return res.status(200).json({ token });
-
-                // Caso trabajador comun
+                    token = jwt.sign({rut: trabajador.rut,cargo: trabajador.cargo }, 'stil', { expiresIn: '8h' });
+                    return res.status(200).json({ token,cargo: trabajador.cargo});
                 } else {
-
-                    token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo, sector: trabajador.idSector }, 'stil', { expiresIn: '8h' });
                     token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo, sector: trabajador.idSector }, 'stil', { expiresIn: '8h' });
                     return res.status(200).json({ token, cargo: trabajador.cargo, sector: trabajador.idSector });
                 }
