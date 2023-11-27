@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se pued
 import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
-import db from './utils/sequelizeConnection.js';
+import dbSQL from './utils/sequelizeConnection.js';
+import dbMongo from './utils/mongoConnection.js';
 
 import value from './utils/const.js';
 

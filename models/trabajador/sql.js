@@ -31,10 +31,6 @@ const TrabajadorModel = (sequelize, Sequelize) => {
         type: Sequelize.CHAR(20),
         allowNull: false,
     },
-    imgWorker: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-    },
   }, {
     // Opciones adicionales
     tableName: 'trabajador',
