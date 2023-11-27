@@ -1,8 +1,9 @@
 import Router from "express";
-const router = Router();
+const routerSector = Router();
 
-import { updateSucursal } from '../controllers/sectorController.js';
+import sqlSector from "../controllers/sector/sql/sectorController.js";
 
-router.put('/sector/:id', updateSucursal);
+routerSector.get('/allSectores/:typeBd', sqlSector.listarSectores);
+routerSector.get('/:id/:typeBd', sqlSector.listarById);
 
-export default router;
+export default routerSector;
