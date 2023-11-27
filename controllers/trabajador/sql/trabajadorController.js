@@ -79,7 +79,6 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
         const typeBd  = req.params.typeBd;
         const { rut, idSector, nombre, apellido, password, cargo, horario} = req.body;
         console.log(req.body);
-
         if(typeBd === 'sql'){
             const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
             const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -124,7 +123,6 @@ sqlTrabajador.validarTrabajador = async (req, res, next) => {
     try {
         // Encontrar RUT
         const trabajador = await TrabajadorModel.findOne({ where: { rut: rut } });
-        console.log(trabajador);
         if (!trabajador) {
             return res.status(400).json({ message: 'Clave o RUT incorrecta.1' });
         }
@@ -140,14 +138,14 @@ sqlTrabajador.validarTrabajador = async (req, res, next) => {
                 if (trabajador.cargo === 'administrador') {
 
                     token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo }, 'stil', { expiresIn: '8h' });
-                    return res.status(200).json({ token, cargo: trabajador.cargo });
+                    return res.status(200).json({ token });
 
                 // Caso trabajador comun
                 } else {
 
                     token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo, sector: trabajador.idSector }, 'stil', { expiresIn: '8h' });
+                    token = jwt.sign({ rut: trabajador.rut, cargo: trabajador.cargo, sector: trabajador.idSector }, 'stil', { expiresIn: '8h' });
                     return res.status(200).json({ token, cargo: trabajador.cargo, sector: trabajador.idSector });
-
                 }
             }
         });
