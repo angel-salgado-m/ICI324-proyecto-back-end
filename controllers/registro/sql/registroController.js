@@ -75,14 +75,21 @@ sqlRegistro.listarInconclusos = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
+
+            const count = await RegistroModel.count({ 
+                where: { 
+                    estado: 'uncheck' 
+                } 
+            });
             const data = await RegistroModel.findAll({
                 where: {
-                    estado: 'inconcluso'
+                    estado: 'uncheck'
                 }
             }); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
+                    count,
                     data,
                     message: "Registro en sequelize"
                 });
