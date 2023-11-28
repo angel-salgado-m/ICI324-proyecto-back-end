@@ -20,11 +20,11 @@ const registroSchema = new Schema({
     },
     asunto:{
         type: String,
-        required: true,
+        required: false,
     },
     descripcion:{
         type: String,
-        required: true,
+        required: false,
     },
     estado:{
         type: String,

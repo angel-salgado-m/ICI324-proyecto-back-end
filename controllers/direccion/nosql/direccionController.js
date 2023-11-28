@@ -32,7 +32,7 @@ nosqlDireccion.listarDirecciones = async (req, res, next) => {
             error
         });
     };
-}
+};
 
 nosqlDireccion.listarById = async (req, res, next) => {
     try {
@@ -63,7 +63,7 @@ nosqlDireccion.listarById = async (req, res, next) => {
             error
         });
     };
-}
+};
 
 nosqlDireccion.cambiarDatos = async (req, res, next) => {
     try {
@@ -103,6 +103,71 @@ nosqlDireccion.cambiarDatos = async (req, res, next) => {
             error
         });
     };
-}
+};
+
+nosqlDireccion.crearDireccion = async (req, res, next) => {
+    try {
+        const typeBd  = req.params.typeBd;
+        const { idSector, idCliente, direccion, pob, blk, dep } = req.body;
+
+        if(typeBd === 'nosql'){
+            const nuevaDireccion = new Direccion({
+                idSector,
+                idCliente,
+                direccion,
+                pob,
+                blk,
+                dep
+            });
+
+            const direccionGuardada = await nuevaDireccion.save();
+
+            return res.status(200).json({
+                success: true,
+                direccionGuardada
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+};
+
+nosqlDireccion.eliminarDireccion = async (req, res, next) => {
+    try {
+        const typeBd  = req.params.typeBd;
+        const idDireccion = req.params.id;
+
+        if(typeBd === 'nosql'){
+            const direccionEliminada = await Direccion.findByIdAndDelete(idDireccion);
+
+            if(direccionEliminada){
+                return res.status(200).json({
+                    success: true,
+                    direccionEliminada
+                });
+            };
+            return res.status(404).json({
+                success: false,
+                error:"Direccion no encontrada"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+};
 
 export default nosqlDireccion;
