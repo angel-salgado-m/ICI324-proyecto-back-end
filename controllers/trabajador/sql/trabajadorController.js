@@ -40,37 +40,6 @@ sqlTrabajador.listarTrabajadores = async (req, res, next) => {
     };
 };
 
-sqlTrabajador.listarById = async (req, res, next) => {
-    try {
-        const typeBd  = req.params.typeBd;
-        const idTrabajador = req.params.id;
-
-        if(typeBd === 'sql'){
-            const trabajador = await Trabajador.findByPk(idTrabajador);
-            
-            if(trabajador){
-                return res.status(200).json({
-                    success: true,
-                    trabajador
-                });
-            };
-            return res.status(404).json({
-                success: false,
-                error:"Trabajador no encontrado"
-            });
-        };
-
-        next();
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            error
-        });
-    };
-};
-
 sqlTrabajador.crearTrabajador = async (req, res, next) => {
     try {
         const typeBd  = req.params.typeBd;
