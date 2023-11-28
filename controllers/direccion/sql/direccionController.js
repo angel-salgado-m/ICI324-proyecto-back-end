@@ -144,15 +144,21 @@ sqlDireccion.listarPorIdSector = async (req, res, next) => {
 sqlDireccion.dp = async (req, res, next) => {
     try {
         const typeBd = req.params.typeBd;
+        const id = req.params.id; // Suponiendo que el parámetro sea idSector
 
         if (typeBd === 'sql') {
             const direccionesSinRegistroHoy = await Direccion.findAll({
+                where: { idSector: id }, // Filtrar por sector
                 include: [{
-                  model: Registro,
-                  required: false, // LEFT JOIN
-                  where: Sequelize.literal('DATE(Registros.fecha) <> CURDATE() OR Registros.fecha IS NULL'),
+                    model: Registro,
+                    required: false, // LEFT JOIN
+                    where: {
+                        [Sequelize.Op.or]: [
+                            { fecha: { [Sequelize.Op.lt]: new Date() } }, // Registros con fecha anterior a hoy
+                            { fecha: null }, // Registros sin fecha
+                        ],
+                    },
                 }],
-                where: { idDireccion: null }, // Para obtener solo las direcciones sin registros
             });
 
             if (direccionesSinRegistroHoy.length > 0) {
