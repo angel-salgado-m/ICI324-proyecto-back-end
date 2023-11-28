@@ -1,16 +1,11 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import RegistroModelFunction from '../../../models/registro/sql.js';
-import ImagenModelFunction from '../../../models/imagen/sql.js';
+import { conexionSql, Registro, Imagen } from '../../../utils/sequelizeConnection.js';
 import path from 'path';
 import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se puede cambiar?)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Obtener directorio actual (Se puede cambiar?)
 
 import multer from 'multer';
-
-const RegistroModel = RegistroModelFunction(sequelize, Sequelize);
-const ImagenModel = ImagenModelFunction(sequelize, Sequelize);
 
 let sqlRegistro = {};
 
@@ -32,14 +27,14 @@ sqlRegistro.crearRegistro = async (req, res, next) => {
 
         if(bdSelection === 'sql'){
             // Creacion del registro
-            const data = await RegistroModel.create(registro);
+            const data = await Registro.create(registro);
 
             // Condicional si se logra crear un registro
             if(data){
                 
                 // Si el registro viene con imagen
                 if(req.file){
-                    const imagen = await ImagenModel.create({
+                    const imagen = await Imagen.create({
                         img: req.file.path,
                         idRegistro: data.idRegistro
                     });
@@ -76,7 +71,7 @@ sqlRegistro.listarRegistros = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
-            const data = await RegistroModel.findAll(); //funciones de sequilize
+            const data = await Registro.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -109,12 +104,12 @@ sqlRegistro.listarInconclusos = async (req, res, next) => {
 
         if(bdSelection === 'sql'){
 
-            const count = await RegistroModel.count({ 
+            const count = await Registro.count({ 
                 where: { 
                     estado: 'uncheck' 
                 } 
             });
-            const data = await RegistroModel.findAll({
+            const data = await Registro.findAll({
                 where: {
                     estado: 'uncheck'
                 }
@@ -151,7 +146,7 @@ sqlRegistro.listarById = async (req, res, next) => {
         const idRegistro = req.params.id;
 
         if(typeBd === 'sql'){
-            const registro = await RegistroModel.findByPk(idRegistro);
+            const registro = await Registro.findByPk(idRegistro);
             
             if(registro){
                 return res.status(200).json({
@@ -179,13 +174,13 @@ sqlRegistro.listarById = async (req, res, next) => {
 sqlRegistro.registrosHoy = async (req, res, next) => {
     try {
         const estado = req.params.estado;
-        const count = await RegistroModel.count({ 
+        const count = await Registro.count({ 
             where: { 
                 fecha: Sequelize.literal('DATE(fecha) = CURRENT_DATE'), 
                 estado: estado 
             } 
         });
-        const registros = await RegistroModel.findAll({ 
+        const registros = await Registro.findAll({ 
             where: { 
                 fecha: Sequelize.literal('DATE(fecha) = CURRENT_DATE'), 
                 estado: estado 
@@ -208,13 +203,13 @@ sqlRegistro.registrosHoy = async (req, res, next) => {
 sqlRegistro.registrosAnteriores = async (req, res, next) => {
     try {
         const estado = req.params.estado;
-        const count = await RegistroModel.count({ 
+        const count = await Registro.count({ 
             where: { 
                 fecha: { [Sequelize.Op.lt]: Sequelize.literal('CURRENT_DATE') }, 
                 estado: estado 
             } 
         });
-        const registros = await RegistroModel.findAll({ 
+        const registros = await Registro.findAll({ 
             where: { 
                 fecha: { [Sequelize.Op.lt]: Sequelize.literal('CURRENT_DATE') }, 
                 estado: estado 
@@ -233,7 +228,5 @@ sqlRegistro.registrosAnteriores = async (req, res, next) => {
         });
     };
 };
-
-sqlRegistro.subirImagen
 
 export { sqlRegistro, upload };

@@ -27,6 +27,14 @@ const conexionSql = new Sequelize(
     }
 );
 
+conexionSql.authenticate().then(() => {
+
+        console.log('SEQUELIZE: Conectado');
+    }).catch((error) => {
+        console.error('SEQUELIZE: Error al conectar: ', error);
+    }
+);
+
 // Inicializacion de modelos
 const Cliente = ClienteModel(conexionSql, Sequelize);
 const Direccion = DireccionModel(conexionSql, Sequelize);
@@ -37,19 +45,39 @@ const Sector = SectorModel(conexionSql, Sequelize);
 const Trabajador = TrabajadorModel(conexionSql, Sequelize);
 
 // Asociacion de modelos
-confExtra(conexionSql);
+// confExtra(conexionSql);
 
-conexionSql.authenticate().then(() => {
+Sector.hasMany(Direccion);
+Direccion.belongsTo(Sector);
 
-        console.log('SEQUELIZE: Conectado');
-    }).catch((error) => {
-        console.error('SEQUELIZE: Error al conectar: ', error);
-    }
-);
+Cliente.hasOne(Direccion);
+Direccion.belongsTo(Cliente);
+
+Medidor.hasOne(Cliente);
+Cliente.belongsTo(Medidor);
+
+Direccion.hasMany(Registro);
+Registro.belongsTo(Direccion);
+
+Registro.hasOne(Imagen);
+Imagen.belongsTo(Registro);
+
+Sector.hasMany(Trabajador);
+Trabajador.belongsTo(Sector);
+
 
 // "Alter : true" para desarrollo
 conexionSql.sync({ alter: true }).then(() => { // alter: true, para 
     console.log("SEQUELIZE: tablas sincronizadas");
 });
 
-export default conexionSql;
+export {
+    conexionSql,
+    Cliente,
+    Direccion,
+    Imagen,
+    Medidor,
+    Registro,
+    Sector,
+    Trabajador,
+  };

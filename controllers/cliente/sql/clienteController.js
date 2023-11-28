@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import ClienteModelFunction from '../../../models/cliente/sql.js';
 
-const ClienteModel = ClienteModelFunction(sequelize, Sequelize);
+import { conexionSql, Cliente } from '../../../utils/sequelizeConnection.js';
+
+
 
 let sqlCliente = {};
 
@@ -12,7 +12,7 @@ sqlCliente.listarClientes = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
-            const data = await ClienteModel.findAll(); //funciones de sequilize
+            const data = await Cliente.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -44,7 +44,7 @@ sqlCliente.listarById = async (req, res, next) => {
         const idCliente = req.params.id;
 
         if(typeBd === 'sql'){
-            const cliente = await ClienteModel.findByPk(idCliente);
+            const cliente = await Cliente.findByPk(idCliente);
             
             if(cliente){
                 return res.status(200).json({
@@ -78,7 +78,7 @@ sqlCliente.cambiarNombre = async (req, res, next) => {
 
         if(typeBd === 'sql'){
 
-            const cliente = await ClienteModel.findByPk(idCliente);
+            const cliente = await Cliente.findByPk(idCliente);
             
             if(cliente){
 

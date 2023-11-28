@@ -1,8 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import SectorModelFunction from '../../../models/sector/sql.js';
-
-const SectorModel = SectorModelFunction(sequelize, Sequelize);
+import { conexionSql, Sector } from '../../../utils/sequelizeConnection.js';
 
 let sqlSector = {};
 
@@ -12,7 +9,7 @@ sqlSector.listarSectores = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
-            const data = await SectorModel.findAll(); //funciones de sequilize
+            const data = await Sector.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -44,7 +41,7 @@ sqlSector.listarById = async (req, res, next) => {
         const idSector = req.params.id;
 
         if(typeBd === 'sql'){
-            const sector = await SectorModel.findByPk(idSector);
+            const sector = await Sector.findByPk(idSector);
             
             if(sector){
                 return res.status(200).json({
