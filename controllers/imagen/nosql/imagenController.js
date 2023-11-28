@@ -38,12 +38,10 @@ nosqlImagen.crearImagen = async (req, res, next) => {
         const typeBd = req.params.typeBd;
 
         if(typeBd === 'nosql'){
-            const { nombre, descripcion, url } = req.body;
+            const { img } = req.body;
 
             const imagen = await Imagen.create({
-                nombre,
-                descripcion,
-                url
+                img
             });
 
             return res.status(201).json({

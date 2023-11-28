@@ -55,8 +55,6 @@ import routerTrabajador from './routes/routerTrabajador.js';
 import routerImagen from './routes/routerImagen.js';
 
 
-
-
 app.use('/cliente', routerCliente);
 app.use('/direccion', routerDireccion);
 app.use('/medidor', routerMedidor);

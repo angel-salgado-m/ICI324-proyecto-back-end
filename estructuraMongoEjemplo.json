@@ -1,0 +1,52 @@
+[
+    {
+        "idImagen": "65657c56f9fe698a19335756",
+        "img": "C:\\Users\\Angel\\Documents\\GitHub\\ICI324-proyecto-back-end\\Images\\1701139678810.jpg"
+    },
+    {
+        "idMedidor": "65657e67b26e209c757f7af9",
+        "idCliente": "656576811862aff30363510e",
+        "serialNumber": "24500-3",
+        "fechaMod": "2001-02-01T03:00:00.000Z"
+    },
+    {
+        "idSector": "6565776e1862aff303635113",
+        "idRuta": 2,
+        "sucursal": "Sucursal B",
+        "locomocion": "400"
+    },
+    {
+        "rut": "22222222-1",
+        "idSector": "6565776e1862aff303635113",
+        "nombre": "Martina",
+        "apellido": "Hernanda",
+        "password": "secreto123",
+        "cargo": "lector",
+        "horario": "Horario 2"
+    },
+    {
+        "idDireccion": "65657866766b092b515837f6",
+        "idSector": "6565776e1862aff303635113",
+        "direccion": "Avenida los placeres"
+    },
+    [
+        {
+            "idCliente": "65650dd6732aa5cf0d78c910",
+            "nombre": "angela"
+        },
+        {
+            "idCliente": "656576811862aff30363510e",
+            "nombre": "Angelaca"
+        }
+    ],
+    {
+        "idRegistro": "65657cddf9fe698a19335759",
+        "idDireccion": "65657866766b092b515837f6",
+        "tipo": "novedad",
+        "asunto": "errLectura",
+        "descripcion": "Esta es una novedad de error de lectura",
+        "estado": "Uncheck",
+        "idImg": "65657c56f9fe698a19335756",
+        "fecha": "2022-01-01T00:00:00.000Z"
+    }
+]

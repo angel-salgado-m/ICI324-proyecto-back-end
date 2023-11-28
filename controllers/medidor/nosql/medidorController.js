@@ -102,13 +102,15 @@ nosqlMedidor.modificarSerial = async (req, res) => {
 nosqlMedidor.createMedidor = async (req, res) => {
     try {
         const typeBd = req.params.typeBd;
+        const { idCliente, serialNumber, fechaMod } = req.body;
 
         if(typeBd === 'nosql'){
-            const newMedidor = new Medidor(req.body);
-            await newMedidor.save();
+            const newMedidor = new Medidor({ idCliente, serialNumber, fechaMod });
+            const savedMedidor = await newMedidor.save();
             return res.status(200).json({
                 success: true,
-                message: "Medidor creado exitosamente"
+                message: "Medidor creado exitosamente",
+                savedMedidor
             });
         };
 
