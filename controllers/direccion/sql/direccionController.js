@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import DireccionModelFunction from '../../../models/direccion/sql.js';
+import { conexionSql } from '../../../utils/sequelizeConnection.js';
 
-const DireccionModel = DireccionModelFunction(sequelize, Sequelize);
+import { Direccion, Registro } from '../../../utils/sequelizeConnection.js';
+
 
 let sqlDireccion = {};
 
@@ -10,7 +10,7 @@ sqlDireccion.listarDirecciones = async (req, res, next) => {
     try {
         const bdSelection = req.params.typeBd;
         if(bdSelection === 'sql'){
-            const data = await DireccionModel.findAll(); //funciones de sequilize
+            const data = await Direccion.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -42,7 +42,7 @@ sqlDireccion.listarById = async (req, res, next) => {
         const idDireccion = req.params.id;
 
         if(typeBd === 'sql'){
-            const direccion = await DireccionModel.findByPk(idDireccion);
+            const direccion = await Direccion.findByPk(idDireccion);
             
             if(direccion){
                 return res.status(200).json({
@@ -75,7 +75,7 @@ sqlDireccion.cambiarDatos = async (req, res, next) => {
 
         if(typeBd === 'sql'){
 
-            const direccion = await DireccionModel.findByPk(idDireccion);
+            const direccion = await Direccion.findByPk(idDireccion);
             
             if(direccion){
 
@@ -113,7 +113,7 @@ sqlDireccion.listarPorIdSector = async (req, res, next) => {
 
         if (typeBd === 'sql') {
             // Realizar la consulta para obtener las direcciones por idSector
-            const direcciones = await DireccionModel.findAll({
+            const direcciones = await Direccion.findAll({
                 where: {
                     idSector: idSector,
                 },
@@ -140,5 +140,44 @@ sqlDireccion.listarPorIdSector = async (req, res, next) => {
         });
     }
 };
+
+sqlDireccion.dp = async (req, res, next) => {
+    try {
+        const typeBd = req.params.typeBd;
+
+        if (typeBd === 'sql') {
+            const direccionesSinRegistroHoy = await Direccion.findAll({
+                include: [{
+                  model: Registro,
+                  required: false, // LEFT JOIN
+                  where: Sequelize.literal('DATE(Registros.fecha) <> CURDATE() OR Registros.fecha IS NULL'),
+                }],
+                where: { idDireccion: null }, // Para obtener solo las direcciones sin registros
+            });
+
+            if (direccionesSinRegistroHoy.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    direccionesSinRegistroHoy,
+                });
+            } else {
+                return res.status(200).json({
+                    success: false,
+                    error: "No se encontraron direcciones sin registro de hoy",
+                });
+            }
+
+
+        }
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error,
+        });
+    }
+};
+
 
 export default sqlDireccion;

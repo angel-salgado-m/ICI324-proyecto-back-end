@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const TrabajadorModel = (sequelize, Sequelize) => {
-  return sequelize.define('Trabajador', {
+const TrabajadorModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Trabajador', {
     rut: {
         type: Sequelize.CHAR(10),
         primaryKey: true,

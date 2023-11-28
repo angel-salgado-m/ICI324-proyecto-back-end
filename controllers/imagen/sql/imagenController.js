@@ -1,11 +1,8 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import ImagenModelFunction from '../../../models/imagen/sql.js';
+import { conexionSql, Imagen } from '../../../utils/sequelizeConnection.js';
 import path from 'path';
 
 const sqlImagen = {};
-
-const ImagenModel = ImagenModelFunction(sequelize, Sequelize);
 
 sqlImagen.getImagen = async (req, res, next) => {
 
@@ -16,7 +13,7 @@ sqlImagen.getImagen = async (req, res, next) => {
         console.log(typeBd, idImagen);
 
         if(typeBd === 'sql'){
-            const imagen = await ImagenModel.findByPk(idImagen);
+            const imagen = await Imagen.findByPk(idImagen);
 
             console.log(imagen);
             if(imagen){

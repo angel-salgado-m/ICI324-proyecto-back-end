@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const SectorModel = (sequelize, Sequelize) => {
-  return sequelize.define('Sector', {
+const SectorModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Sector', {
     idSector: {
         type: Sequelize.INTEGER,
         primaryKey: true,

@@ -1,8 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import MedidorModelFunction from '../../../models/medidor/sql.js';
-
-const MedidorModel = MedidorModelFunction(sequelize, Sequelize);
+import { conexionSql, Medidor } from '../../../utils/sequelizeConnection.js';
 
 let sqlMedidor = {};
 
@@ -12,7 +9,7 @@ sqlMedidor.listarMedidores = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
-            const data = await MedidorModel.findAll(); //funciones de sequilize
+            const data = await Medidor.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -44,7 +41,7 @@ sqlMedidor.listarById = async (req, res, next) => {
         const idMedidor = req.params.id;
 
         if(typeBd === 'sql'){
-            const medidor = await MedidorModel.findByPk(idMedidor);
+            const medidor = await Medidor.findByPk(idMedidor);
             
             if(medidor){
                 return res.status(200).json({
@@ -78,7 +75,7 @@ sqlMedidor.modificarSerial = async (req, res, next) => {
 
         if(typeBd === 'sql'){
 
-            const medidor = await MedidorModel.findByPk(idMedidor);
+            const medidor = await Medidor.findByPk(idMedidor);
 
             if(medidor){
                 

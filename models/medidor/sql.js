@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const MedidorModel = (sequelize, Sequelize) => {
-  return sequelize.define('Medidor', {
+const MedidorModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Medidor', {
     idMedidor: {
         type: Sequelize.INTEGER,
         primaryKey: true,

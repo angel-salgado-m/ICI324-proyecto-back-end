@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const RegistroModel = (sequelize, Sequelize) => {
-  return sequelize.define('Registro', {
+const RegistroModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Registro', {
     idRegistro: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -11,6 +12,10 @@ const RegistroModel = (sequelize, Sequelize) => {
     idDireccion: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+            model: 'direccion',
+            key: 'idDireccion'
+        }
     },
     tipo: {
         type: Sequelize.ENUM('lectura', 'revision', 'novedad'),
@@ -27,7 +32,9 @@ const RegistroModel = (sequelize, Sequelize) => {
     },
     estado: {
         type: Sequelize.ENUM('check','uncheck' ),
+        required: false,
         allowNull: false,
+        defaultValue: 'uncheck',
     },
     idImg: {
         type: Sequelize.INTEGER,

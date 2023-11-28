@@ -1,13 +1,10 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import TrabajadorModelFunction from '../../../models/trabajador/sql.js';
+import { conexionSql, Trabajador } from '../../../utils/sequelizeConnection.js';
 
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: '../../../.env'});
-
-const TrabajadorModel = TrabajadorModelFunction(sequelize, Sequelize);
 
 let sqlTrabajador = {};
 
@@ -17,7 +14,7 @@ sqlTrabajador.listarTrabajadores = async (req, res, next) => {
         console.log(bdSelection);
 
         if(bdSelection === 'sql'){
-            const data = await TrabajadorModel.findAll(); //funciones de sequilize
+            const data = await Trabajador.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -49,7 +46,7 @@ sqlTrabajador.listarById = async (req, res, next) => {
         const idTrabajador = req.params.id;
 
         if(typeBd === 'sql'){
-            const trabajador = await TrabajadorModel.findByPk(idTrabajador);
+            const trabajador = await Trabajador.findByPk(idTrabajador);
             
             if(trabajador){
                 return res.status(200).json({
@@ -81,7 +78,7 @@ sqlTrabajador.crearTrabajador = async (req, res, next) => {
         if(typeBd === 'sql'){
             const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
             const hashedPassword = await bcrypt.hash(password, saltRounds);
-            const trabajador = await TrabajadorModel.create({
+            const trabajador = await Trabajador.create({
                 rut,
                 idSector,
                 nombre,
@@ -117,15 +114,17 @@ sqlTrabajador.validarTrabajador = async (req, res, next) => {
 
     try {
         // Encontrar RUT
-        const trabajador = await TrabajadorModel.findOne({ where: { rut: rut } });
+        const trabajador = await Trabajador.findOne({ where: { rut: rut } });
         if (!trabajador) {
-            return res.status(400).json({ message: 'Clave o RUT incorrecta.1' });
+            return res.status(400).json({ 
+                message: 'Clave o RUT incorrecta.' 
+            });
         }
 
         // Comparacion de password dada
         bcrypt.compare(password, trabajador.password, (compareErr, match) => {
             if (compareErr || !match) {
-                return res.status(400).json({ message: 'Clave o RUT incorrecta.2' });
+                return res.status(400).json({ message: 'Clave o RUT incorrecta.' });
 
             } else {
                 let token;
