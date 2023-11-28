@@ -17,7 +17,7 @@ nosqlDireccion.listarDirecciones = async (req, res, next) => {
                 });
             };
 
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 message: "No hay direcciones en BD Mongo"
             });
@@ -48,7 +48,7 @@ nosqlDireccion.listarById = async (req, res, next) => {
                     direccion
                 });
             };
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 error:"Direccion no encontrada"
             });
@@ -88,7 +88,7 @@ nosqlDireccion.cambiarDatos = async (req, res, next) => {
                     direccionActualizada
                 });
             };
-            return res.status(404).json({
+            return res.status(200).json({
                 success: false,
                 error:"Direccion no encontrada"
             });
