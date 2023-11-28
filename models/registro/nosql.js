@@ -20,11 +20,11 @@ const registroSchema = new Schema({
     },
     asunto:{
         type: String,
-        required: true,
+        required: false,
     },
     descripcion:{
         type: String,
-        required: true,
+        required: false,
     },
     estado:{
         type: String,
@@ -33,7 +33,7 @@ const registroSchema = new Schema({
     idImg:{
         type: Schema.Types.ObjectId,
         ref: 'imagen',
-        required: true,
+        required: false,
     },
     fecha:{
         type: Date,

@@ -16,19 +16,23 @@ const direccionSchema = new Schema({
     idCliente:{
         type: Schema.Types.ObjectId,
         ref: 'cliente',
+        required: false,
+    },
+    direccion:{
+        type: String,
         required: true,
     },
     pob:{
         type: String,
-        required: true,
+        required: false,
     },
     blk:{
         type: String,
-        required: true,
+        required: false,
     },
     dep:{
         type: String,
-        required: true,
+        required: false,
     },
 });
 

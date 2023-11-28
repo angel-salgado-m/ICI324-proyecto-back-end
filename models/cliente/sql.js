@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../utils/sequelizeConnection.js';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const ClienteModel = (sequelize, Sequelize) => {
-  return sequelize.define('Cliente', {
+const ClienteModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Cliente', {
     idCliente: {
         type: Sequelize.INTEGER,
         primaryKey: true,

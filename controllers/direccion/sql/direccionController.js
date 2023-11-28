@@ -1,18 +1,16 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../utils/sequelizeConnection.js';
-import DireccionModelFunction from '../../../models/direccion/sql.js';
+import { conexionSql } from '../../../utils/sequelizeConnection.js';
 
-const DireccionModel = DireccionModelFunction(sequelize, Sequelize);
+import { Direccion, Registro } from '../../../utils/sequelizeConnection.js';
+
 
 let sqlDireccion = {};
 
 sqlDireccion.listarDirecciones = async (req, res, next) => {    
     try {
         const bdSelection = req.params.typeBd;
-        console.log(bdSelection);
-
         if(bdSelection === 'sql'){
-            const data = await DireccionModel.findAll(); //funciones de sequilize
+            const data = await Direccion.findAll(); //funciones de sequilize
             if(data.length > 0){
                 return res.status(200).json({
                     success: true,
@@ -44,7 +42,7 @@ sqlDireccion.listarById = async (req, res, next) => {
         const idDireccion = req.params.id;
 
         if(typeBd === 'sql'){
-            const direccion = await DireccionModel.findByPk(idDireccion);
+            const direccion = await Direccion.findByPk(idDireccion);
             
             if(direccion){
                 return res.status(200).json({
@@ -77,7 +75,7 @@ sqlDireccion.cambiarDatos = async (req, res, next) => {
 
         if(typeBd === 'sql'){
 
-            const direccion = await DireccionModel.findByPk(idDireccion);
+            const direccion = await Direccion.findByPk(idDireccion);
             
             if(direccion){
 
@@ -108,5 +106,85 @@ sqlDireccion.cambiarDatos = async (req, res, next) => {
         });
     };
 }
+
+sqlDireccion.listarPorIdSector = async (req, res, next) => {
+    try {
+        const typeBd = req.params.typeBd;
+        const idSector = req.params.id; // Suponiendo que el parámetro sea idSector
+
+        if (typeBd === 'sql') {
+            // Realizar la consulta para obtener las direcciones por idSector
+            const direcciones = await Direccion.findAll({
+                where: {
+                    idSector: idSector,
+                },
+            });
+
+            if (direcciones.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    direcciones,
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    error: "No se encontraron direcciones para el idSector proporcionado",
+                });
+            }
+        }
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error,
+        });
+    }
+};
+
+sqlDireccion.dp = async (req, res, next) => {
+    try {
+        const typeBd = req.params.typeBd;
+        const id = req.params.id; // Suponiendo que el parámetro sea idSector
+
+        if (typeBd === 'sql') {
+            const direccionesSinRegistroHoy = await Direccion.findAll({
+                where: { idSector: id }, // Filtrar por sector
+                include: [{
+                    model: Registro,
+                    required: false, // LEFT JOIN
+                    where: {
+                        [Sequelize.Op.or]: [
+                            { fecha: { [Sequelize.Op.lt]: new Date() } }, // Registros con fecha anterior a hoy
+                            { fecha: null }, // Registros sin fecha
+                        ],
+                    },
+                }],
+            });
+
+            if (direccionesSinRegistroHoy.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    direccionesSinRegistroHoy,
+                });
+            } else {
+                return res.status(200).json({
+                    success: false,
+                    error: "No se encontraron direcciones sin registro de hoy",
+                });
+            }
+
+
+        }
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error,
+        });
+    }
+};
+
 
 export default sqlDireccion;

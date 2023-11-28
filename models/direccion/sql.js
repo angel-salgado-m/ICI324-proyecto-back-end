@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../utils/sequelizeConnection.js';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
 
-const DireccionModel = (sequelize, Sequelize) => {
-  return sequelize.define('Direccion', {
+const DireccionModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Direccion', {
     idDireccion: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -18,18 +18,23 @@ const DireccionModel = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    pob: {
+    direccion: {
         type: Sequelize.CHAR(50),
         allowNull: false,
+    },
+    pob: {
+        type: Sequelize.CHAR(50),
+        allowNull: true,
     },
     blk: {
         type: Sequelize.CHAR(50),
-        allowNull: false,
+        allowNull: true,
     },
     dep: {
         type: Sequelize.CHAR(50),
-        allowNull: false,
+        allowNull: true,
     },
+    
   }, {
     // Opciones adicionales
     tableName: 'direccion',

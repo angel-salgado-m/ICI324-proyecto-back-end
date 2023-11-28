@@ -91,4 +91,67 @@ nosqlCliente.crearCliente = async (req, res, next) => {
     };
 };
 
+nosqlCliente.cambiarNombre = async (req, res, next) => {
+    try {
+        const typeBd  = req.params.typeBd;
+        const idCliente = req.params.id;
+        const cliente = req.body;
+
+        if(typeBd === 'nosql'){
+            const clienteActualizado = await Cliente.findByIdAndUpdate(idCliente, cliente, { new: true });
+
+            if(clienteActualizado){
+                return res.status(200).json({
+                    success: true,
+                    message: "Cliente actualizado"
+                });
+            };
+            return res.status(404).json({
+                success: false,
+                error:"Cliente no encontrado"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+};
+
+nosqlCliente.eliminarCliente = async (req, res, next) => {
+    try {
+        const typeBd  = req.params.typeBd;
+        const idCliente = req.params.id;
+
+        if(typeBd === 'nosql'){
+            const clienteEliminado = await Cliente.findByIdAndDelete(idCliente);
+
+            if(clienteEliminado){
+                return res.status(200).json({
+                    success: true,
+                    message: "Cliente eliminado"
+                });
+            };
+            return res.status(404).json({
+                success: false,
+                error:"Cliente no encontrado"
+            });
+        };
+
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            error
+        });
+    };
+}
+
 export default nosqlCliente;

@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
+import { conexionSql } from '../../utils/sequelizeConnection.js';
 
-const ImagenModel = (sequelize, Sequelize) => {
-  return sequelize.define('Imagen', {
+const ImagenModel = (conexionSql, Sequelize) => {
+  return conexionSql.define('Imagen', {
     idImagen: {
         type: Sequelize.INTEGER,
         primaryKey: true,
