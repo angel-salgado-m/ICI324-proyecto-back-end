@@ -18,17 +18,21 @@ const direccionSchema = new Schema({
         ref: 'cliente',
         required: true,
     },
-    pob:{
+    direccion:{
         type: String,
         required: true,
+    },
+    pob:{
+        type: String,
+        required: false,
     },
     blk:{
         type: String,
-        required: true,
+        required: false,
     },
     dep:{
         type: String,
-        required: true,
+        required: false,
     },
 });
 

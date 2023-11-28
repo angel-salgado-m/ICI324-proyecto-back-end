@@ -106,6 +106,7 @@ sqlDireccion.cambiarDatos = async (req, res, next) => {
         });
     };
 }
+
 sqlDireccion.listarPorIdSector = async (req, res, next) => {
     try {
         const typeBd = req.params.typeBd;

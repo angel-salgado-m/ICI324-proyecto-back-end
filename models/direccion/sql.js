@@ -18,17 +18,21 @@ const DireccionModel = (conexionSql, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    pob: {
+    direccion: {
         type: Sequelize.CHAR(50),
         allowNull: false,
+    },
+    pob: {
+        type: Sequelize.CHAR(50),
+        allowNull: true,
     },
     blk: {
         type: Sequelize.CHAR(50),
-        allowNull: false,
+        allowNull: true,
     },
     dep: {
         type: Sequelize.CHAR(50),
-        allowNull: false,
+        allowNull: true,
     },
     
   }, {

@@ -28,7 +28,7 @@ const RegistroModel = (conexionSql, Sequelize) => {
     },
     descripcion: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
     },
     estado: {
         type: Sequelize.ENUM('check','uncheck' ),
