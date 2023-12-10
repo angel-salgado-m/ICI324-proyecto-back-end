@@ -4,6 +4,8 @@ import { fileURLToPath } from 'url';  // Para obtener directorio actual (Se pued
 import cors from 'cors';
 import morgan from 'morgan';
 import express from 'express';
+import {marked} from 'marked';
+import fs from 'fs';
 import { conexionSql, Cliente, Direccion, Imagen, Medidor, Registro, Sector, Trabajador } from './utils/sequelizeConnection.js';
 import dbMongo from './utils/mongoConnection.js';
 
@@ -39,7 +41,15 @@ TODO:
 - [] Ver si es seguro usar las funcion path.join.
 */
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'readme.md'));
+    fs.readFile(path.join(__dirname, 'README.md'), 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+        return;
+      }
+      const htmlContent = marked(data);
+      res.send(htmlContent);
+    }); 
   }
 );
 
